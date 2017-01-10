@@ -1,29 +1,13 @@
-package cn.ucai.fulicenter.model.Bean;
+package cn.ucai.fulicenter.model.bean;
 
-/**
- * Created by Administrator on 2017/1/9.
- */
+import java.io.Serializable;
 
-public class AlbumsBean {
-
-    /**
-     * pid : 7672
-     * imgId : 28283
-     * imgUrl : 201509/goods_img/7672_P_1442389445199.jpg
-     * thumbUrl : no_picture.gif
-     */
+public class AlbumsBean implements Serializable {
 
     private int pid;
     private int imgId;
     private String imgUrl;
     private String thumbUrl;
-
-    public AlbumsBean(int pid, int imgId, String imgUrl, String thumbUrl) {
-        this.pid = pid;
-        this.imgId = imgId;
-        this.imgUrl = imgUrl;
-        this.thumbUrl = thumbUrl;
-    }
 
     public int getPid() {
         return pid;

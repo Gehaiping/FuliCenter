@@ -1,17 +1,15 @@
-package cn.ucai.fulicenter.model.Bean;
+package cn.ucai.fulicenter.model.bean;
 
-/**
- * Created by Administrator on 2017/1/9.
- */
+import java.io.Serializable;
 
-public class BoutiqueBeen {
+public class BoutiqueBean implements Serializable {
 
     /**
      * id : 262
      * title : 不一样的新妆，不一样的美丽
      * description : 快速增长修护预防脱发洗发水让头发健康快速生长更美丽
      * name : 拯救头发，美丽新妆
-     * imageurl : cat_image/boutique1.png
+     * imageurl : cat_image/boutique1.jpg
      */
 
     private int id;
@@ -19,14 +17,6 @@ public class BoutiqueBeen {
     private String description;
     private String name;
     private String imageurl;
-
-    public BoutiqueBeen(int id, String title, String description, String name, String imageurl) {
-        this.id = id;
-        this.title = title;
-        this.description = description;
-        this.name = name;
-        this.imageurl = imageurl;
-    }
 
     public int getId() {
         return id;
@@ -70,7 +60,7 @@ public class BoutiqueBeen {
 
     @Override
     public String toString() {
-        return "BoutiqueBeen{" +
+        return "BoutiqueBean{" +
                 "id=" + id +
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +

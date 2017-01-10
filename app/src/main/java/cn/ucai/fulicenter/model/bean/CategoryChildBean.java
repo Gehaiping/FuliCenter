@@ -1,18 +1,18 @@
-package cn.ucai.fulicenter.model.Bean;
+package cn.ucai.fulicenter.model.bean;
 
-/**
- * Created by Administrator on 2017/1/9.
- */
+import java.io.Serializable;
 
-public class CategoryGroupBean {
+public class CategoryChildBean implements Serializable {
 
     /**
-     * id : 344
-     * name : 最IN
-     * imageUrl : muying/2.jpg
+     * id : 348
+     * parentId : 344
+     * name : 败姐推荐
+     * imageUrl : cat_image/256_4.png
      */
 
     private int id;
+    private int parentId;
     private String name;
     private String imageUrl;
 
@@ -22,6 +22,14 @@ public class CategoryGroupBean {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public int getParentId() {
+        return parentId;
+    }
+
+    public void setParentId(int parentId) {
+        this.parentId = parentId;
     }
 
     public String getName() {
@@ -42,8 +50,9 @@ public class CategoryGroupBean {
 
     @Override
     public String toString() {
-        return "CategoryGroupBean{" +
+        return "CategoryChildBean{" +
                 "id=" + id +
+                ", parentId=" + parentId +
                 ", name='" + name + '\'' +
                 ", imageUrl='" + imageUrl + '\'' +
                 '}';

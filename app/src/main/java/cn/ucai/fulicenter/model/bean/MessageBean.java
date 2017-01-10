@@ -1,14 +1,10 @@
-package cn.ucai.fulicenter.model.Bean;
-
-/**
- * Created by Administrator on 2017/1/9.
- */
+package cn.ucai.fulicenter.model.bean;
 
 public class MessageBean {
 
     /**
      * success : true
-     * msg : 2
+     * msg : 添加收藏成功
      */
 
     private boolean success;

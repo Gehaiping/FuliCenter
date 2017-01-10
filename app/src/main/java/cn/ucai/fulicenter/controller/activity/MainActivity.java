@@ -1,31 +1,39 @@
 package cn.ucai.fulicenter.controller.activity;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.RadioButton;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import cn.ucai.fulicenter.R;
 
 public class MainActivity extends AppCompatActivity {
     int index, currentIndex;
-    RadioButton rbNewGoods, rbBoutique, rbCategory, rbCart, rbPersonal;
-    RadioButton[] rbs = new RadioButton[5];
+    RadioButton[] rbArr = new RadioButton[5];
+    @BindView(R.id.layout_new_good)
+    RadioButton layoutNewGood;
+    @BindView(R.id.layout_boutique)
+    RadioButton layoutBoutique;
+    @BindView(R.id.layout_category)
+    RadioButton layoutCategory;
+    @BindView(R.id.layout_cart)
+    RadioButton layoutCart;
+    @BindView(R.id.layout_personal_center)
+    RadioButton layoutPersonalCenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        rbNewGoods = (RadioButton) findViewById(R.id.layout_new_good);
-        rbBoutique = (RadioButton) findViewById(R.id.layout_boutique);
-        rbCategory = (RadioButton) findViewById(R.id.layout_category);
-        rbCart = (RadioButton) findViewById(R.id.layout_cart);
-        rbPersonal = (RadioButton) findViewById(R.id.layout_personal_center);
-        rbs[0] = rbNewGoods;
-        rbs[1] = rbBoutique;
-        rbs[2] = rbCategory;
-        rbs[3] = rbCart;
-        rbs[4] = rbPersonal;
+        ButterKnife.bind(this);
+
+        rbArr[0] = layoutNewGood;
+        rbArr[1] = layoutBoutique;
+        rbArr[2] = layoutCategory;
+        rbArr[3] = layoutCart;
+        rbArr[4] = layoutPersonalCenter;
     }
 
     public void onCheckedChange(View view) {
@@ -52,11 +60,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setRadioStatus() {
-        for (int i = 0; i < rbs.length; i++) {
+        for (int i = 0; i < rbArr.length; i++) {
             if (index != i) {
-                rbs[i].setChecked(false);
+                rbArr[i].setChecked(false);
             } else {
-                rbs[i].setChecked(true);
+                rbArr[i].setChecked(true);
             }
         }
         currentIndex = index;

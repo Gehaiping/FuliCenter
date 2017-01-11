@@ -2,7 +2,6 @@ package cn.ucai.fulicenter.controller.fragment;
 
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
@@ -26,46 +25,106 @@ import cn.ucai.fulicenter.model.net.IModelNewGoods;
 import cn.ucai.fulicenter.model.net.ModelNewGoods;
 import cn.ucai.fulicenter.model.net.OnCompletListener;
 import cn.ucai.fulicenter.model.util.ConvertUtils;
+import cn.ucai.fulicenter.model.util.ImageLoader;
 
 public class NewGoodsFragment extends Fragment {
     private static final String TAG = NewGoodsFragment.class.getSimpleName();
+
+    static final int ACTION_DOWN = 0;
+    static final int ACTION_PULL_DOWN = 1;
+    static final int ACTION_PULL_UP = 2;
 
     @BindView(R.id.tv_refresh)
     TextView mTvRefresh;
     @BindView(R.id.rv)
     RecyclerView mRv;
     @BindView(R.id.srl)
-    SwipeRefreshLayout mSrl;
+    SwipeRefreshLayout mSwipeRefreshLayout;
 
-    GridLayoutManager layoutManager;
+    GridLayoutManager mLayoutManager;
     ArrayList<NewGoodsBean> mList;
     GoodsAdapter mAdapter;
 
     IModelNewGoods model;
-    int pageId = 1;
+    int mPageId = 1;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         View layout = inflater.inflate(R.layout.fragment_new_goods, container, false);
         ButterKnife.bind(this, layout);
 
         initView();
+        setListener();
         model = new ModelNewGoods();
         initData();
+
         return layout;
     }
 
+    private void setListener() {
+        setPullDownListener();
+        setPullUpListener();
+    }
+
+    private void setPullUpListener() {
+        mRv.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                int lastPosition = mLayoutManager.findLastVisibleItemPosition();
+                if (newState == RecyclerView.SCROLL_STATE_IDLE && mAdapter.isMore() && lastPosition == mAdapter.getItemCount() - 1) {
+                    mPageId++;
+                    downloadData(ACTION_PULL_UP, mPageId);
+                }
+            }
+        });
+    }
+
+    private void setPullDownListener() {
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                mSwipeRefreshLayout.setRefreshing(true);
+                mTvRefresh.setVisibility(View.VISIBLE);
+                mPageId = 1;
+                downloadData(ACTION_PULL_DOWN, mPageId);
+            }
+        });
+    }
+
     private void initData() {
-        model.downData(getContext(), I.CAT_ID, pageId, new OnCompletListener<NewGoodsBean[]>() {
+        mPageId = 1;
+        downloadData(ACTION_DOWN, mPageId);
+    }
+
+    private void downloadData(final int action, int mPageId) {
+        model.downData(getContext(), I.CAT_ID, mPageId, new OnCompletListener<NewGoodsBean[]>() {
             @Override
             public void onSuccess(NewGoodsBean[] result) {
-                if (result != null && result.length > 0) {
+                    mAdapter.setMore(result != null && result.length > 0);
+                    if (!mAdapter.isMore()) {
+                        if (action == ACTION_PULL_UP) {
+                            mAdapter.setFooter("没有更多数据。。。");
+                        }
+                        return;
+                    }
+                    mAdapter.setFooter("加载更多数据。。。");
                     ArrayList<NewGoodsBean> list = ConvertUtils.array2List(result);
-                    Log.i(TAG, "list.size=" + list.size());
-                    mAdapter.initData(list);
-                }
+                    switch (action) {
+                        case ACTION_DOWN:
+                            mAdapter.initData(list);
+                            break;
+                        case ACTION_PULL_DOWN:
+                            ImageLoader.release();
+                            mSwipeRefreshLayout.setRefreshing(false);
+                            mTvRefresh.setVisibility(View.GONE);
+                            mAdapter.initData(list);
+                            break;
+                        case ACTION_PULL_UP:
+                            mAdapter.addData(list);
+                            break;
+                    }
             }
 
             @Override
@@ -76,14 +135,15 @@ public class NewGoodsFragment extends Fragment {
     }
 
     private void initView() {
-        mSrl.setColorSchemeColors(
+        mSwipeRefreshLayout.setColorSchemeColors(
                 getResources().getColor(R.color.google_blue),
                 getResources().getColor(R.color.google_green),
                 getResources().getColor(R.color.google_red),
                 getResources().getColor(R.color.google_yellow)
         );
-        layoutManager = new GridLayoutManager(getContext(), I.COLUM_NUM);
-        mRv.setLayoutManager(layoutManager);
+        mLayoutManager = new GridLayoutManager(getContext(), I.COLUM_NUM);
+
+        mRv.setLayoutManager(mLayoutManager);
         mRv.setHasFixedSize(true);
         mList = new ArrayList<>();
         mAdapter = new GoodsAdapter(getContext(), mList);

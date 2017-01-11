@@ -7,6 +7,9 @@ import android.os.Bundle;
 import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.view.MFGT;
 
+/**
+ * 控制闪屏的activity
+ */
 public class SplashActivity extends AppCompatActivity {
 
     @Override

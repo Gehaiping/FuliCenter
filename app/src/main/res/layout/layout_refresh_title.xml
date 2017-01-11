@@ -3,8 +3,9 @@
     android:id="@+id/tv_refresh"
     android:textSize="18sp"
     android:textStyle="bold"
-    android:text="now_refresh"
+    android:text="刷新中。。。"
     android:layout_width="match_parent"
+    android:visibility="gone"
     android:layout_height="wrap_content"
     android:gravity="center_horizontal">
 </TextView>

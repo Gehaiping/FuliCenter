@@ -2,6 +2,7 @@ package cn.ucai.fulicenter.controller.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -21,40 +22,89 @@ import cn.ucai.fulicenter.model.util.ImageLoader;
  */
 
 public class GoodsAdapter extends RecyclerView.Adapter {
+    static final int TYPE_GOODS = 0;
+    static final int TYPE_FOOTER = 1;
     Context mContext;
     ArrayList<NewGoodsBean> mList;
+    String footer;
+    boolean isMore;
 
-    public GoodsAdapter(Context context, ArrayList<NewGoodsBean> list) {
-        this.mContext = context;
-        this.mList = new ArrayList<>();
-        mList.addAll(list);
+    public boolean isMore() {
+        return isMore;
     }
 
-    @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View layout = View.inflate(mContext, R.layout.item_goods, null);
-        return new GoodsViewHolder(layout);
+    public void setMore(boolean more) {
+        isMore = more;
+        notifyDataSetChanged();
     }
 
-    @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        GoodsViewHolder vh = (GoodsViewHolder) holder;
-        ImageLoader.downloadImg(mContext, vh.ivGoodsThume, mList.get(position).getGoodsThumb());
-        vh.tvGoodsPrice.setText(mList.get(position).getGoodsName());
-        vh.tvGoodsName.setText(mList.get(position).getCurrencyPrice());
+    public String getFooter() {
+        return footer;
     }
 
-    @Override
-    public int getItemCount() {
-        return mList.size();
+    public void setFooter(String footer) {
+        this.footer = footer;
+        notifyDataSetChanged();
     }
 
     public void initData(ArrayList<NewGoodsBean> list) {
         if (mList != null) {
             mList.clear();
         }
+        addData(list);
+    }
+
+    public void addData(ArrayList<NewGoodsBean> list) {
         mList.addAll(list);
         notifyDataSetChanged();
+    }
+
+    public GoodsAdapter(Context context, ArrayList<NewGoodsBean> list) {
+        this.mContext = context;
+        mList = new ArrayList<>();
+        mList.addAll(list);
+    }
+
+    @Override
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        LayoutInflater inflater = LayoutInflater.from(mContext);
+        View layout;
+        switch (viewType) {
+            case TYPE_FOOTER:
+                layout = inflater.inflate(R.layout.item_footer, null);
+                return new FooterViewHolder(layout);
+            case TYPE_GOODS:
+                layout = inflater.inflate(R.layout.item_goods, null);
+                return new GoodsViewHolder(layout);
+        }
+        return null;
+    }
+
+    @Override
+    public void onBindViewHolder(RecyclerView.ViewHolder parentHolder, int position) {
+        if (getItemViewType(position) == TYPE_FOOTER) {
+            FooterViewHolder holder = (FooterViewHolder) parentHolder;
+            holder.tvFooter.setText(getFooter());
+            return;
+        }
+        NewGoodsBean newGoods = mList.get(position);
+        GoodsViewHolder holder = (GoodsViewHolder) parentHolder;
+        holder.tvGoodsName.setText(newGoods.getGoodsName());
+        holder.tvGoodsPrice.setText(newGoods.getCurrencyPrice());
+        ImageLoader.downloadImg(mContext, holder.ivGoodsThume, newGoods.getGoodsThumb());
+    }
+
+    @Override
+    public int getItemCount() {
+        return mList.size() + 1;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        if (position == getItemCount() - 1) {
+            return TYPE_FOOTER;
+        }
+        return TYPE_GOODS;
     }
 
 
@@ -69,6 +119,16 @@ public class GoodsAdapter extends RecyclerView.Adapter {
         LinearLayout layoutGoods;
 
         GoodsViewHolder(View view) {
+            super(view);
+            ButterKnife.bind(this, view);
+        }
+    }
+
+    static class FooterViewHolder extends RecyclerView.ViewHolder {
+        @BindView(R.id.tvFooter)
+        TextView tvFooter;
+
+        FooterViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);
         }

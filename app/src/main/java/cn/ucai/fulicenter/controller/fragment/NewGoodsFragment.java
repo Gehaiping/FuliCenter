@@ -30,7 +30,6 @@ import cn.ucai.fulicenter.view.SpaceItemDecoration;
 public class NewGoodsFragment extends Fragment {
     private static final String TAG = NewGoodsFragment.class.getSimpleName();
 
-
     @BindView(R.id.tv_refresh)
     TextView mTvRefresh;
     @BindView(R.id.rv)
@@ -96,7 +95,8 @@ public class NewGoodsFragment extends Fragment {
     }
 
     private void downloadData(final int action, int mPageId) {
-        model.downData(getContext(), I.CAT_ID, mPageId, new OnCompletListener<NewGoodsBean[]>() {
+        int catId = getActivity().getIntent().getIntExtra(I.NewAndBoutiqueGoods.CAT_ID, I.CAT_ID);
+        model.downData(getContext(),catId, mPageId, new OnCompletListener<NewGoodsBean[]>() {
             @Override
             public void onSuccess(NewGoodsBean[] result) {
                 mAdapter.setMore(result != null && result.length > 0);

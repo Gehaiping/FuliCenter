@@ -26,26 +26,7 @@ import cn.ucai.fulicenter.view.FooterViewHolder;
 public class BoutiqueAdapter extends RecyclerView.Adapter {
     Context mContext;
     ArrayList<BoutiqueBean> mList;
-    String footer;
-    boolean isMore;
 
-    public boolean isMore() {
-        return isMore;
-    }
-
-    public void setMore(boolean more) {
-        isMore = more;
-        notifyDataSetChanged();
-    }
-
-    public String getFooter() {
-        return footer;
-    }
-
-    public void setFooter(String footer) {
-        this.footer = footer;
-        notifyDataSetChanged();
-    }
 
     public void initData(ArrayList<BoutiqueBean> list) {
         if (mList != null) {
@@ -70,25 +51,12 @@ public class BoutiqueAdapter extends RecyclerView.Adapter {
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(mContext);
-        View layout;
-        switch (viewType) {
-            case I.TYPE_FOOTER:
-                layout = inflater.inflate(R.layout.item_footer, null);
-                return new FooterViewHolder(layout);
-            case I.TYPE_ITEM:
-                layout = inflater.inflate(R.layout.item_boutique, null);
-                return new BoutiqueViewHolder(layout);
-        }
-        return null;
+        View layout = inflater.inflate(R.layout.item_boutique, null);
+        return new BoutiqueViewHolder(layout);
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder parentHolder, int position) {
-        if (getItemViewType(position) == I.TYPE_FOOTER) {
-            FooterViewHolder holder = (FooterViewHolder) parentHolder;
-            holder.tvFooter.setText(getFooter());
-            return;
-        }
         BoutiqueBean boutique = mList.get(position);
         BoutiqueViewHolder holder = (BoutiqueViewHolder) parentHolder;
         holder.tvBoutiqueName.setText(boutique.getName());
@@ -99,15 +67,7 @@ public class BoutiqueAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemCount() {
-        return mList.size() + 1;
-    }
-
-    @Override
-    public int getItemViewType(int position) {
-        if (position == getItemCount() - 1) {
-            return I.TYPE_FOOTER;
-        }
-        return I.TYPE_ITEM;
+        return mList.size();
     }
 
     static class BoutiqueViewHolder extends RecyclerView.ViewHolder {

@@ -16,12 +16,13 @@ import cn.ucai.fulicenter.controller.fragment.NewGoodsFragment;
 import cn.ucai.fulicenter.view.MFGT;
 
 public class BoutiqueChildActivity extends AppCompatActivity {
-    @BindView(R.id.back)
-    LinearLayout back;
+
+    @BindView(R.id.backClickArea)
+    LinearLayout backClickArea;
     @BindView(R.id.tv_common_title)
     TextView tvCommonTitle;
-    @BindView(R.id.fragment_boutiqueChild)
-    FrameLayout fragmentBoutiqueChild;
+    @BindView(R.id.fragment_container)
+    FrameLayout fragmentContainer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,13 +30,13 @@ public class BoutiqueChildActivity extends AppCompatActivity {
         setContentView(R.layout.activity_boutique_child);
         ButterKnife.bind(this);
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.add(R.id.fragment_boutiqueChild, new NewGoodsFragment())
+        ft.add(R.id.fragment_container, new NewGoodsFragment())
                 .commit();
         String title = getIntent().getStringExtra(I.Boutique.NAME);
         tvCommonTitle.setText(title);
     }
 
-    @OnClick(R.id.back)
+    @OnClick(R.id.backClickArea)
     public void onClick() {
         MFGT.finish(this);
     }

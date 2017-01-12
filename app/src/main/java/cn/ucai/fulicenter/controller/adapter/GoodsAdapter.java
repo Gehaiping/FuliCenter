@@ -17,6 +17,7 @@ import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.application.I;
 import cn.ucai.fulicenter.model.bean.NewGoodsBean;
 import cn.ucai.fulicenter.model.util.ImageLoader;
+import cn.ucai.fulicenter.view.MFGT;
 
 /**
  * Created by Administrator on 2017/1/11.
@@ -87,11 +88,17 @@ public class GoodsAdapter extends RecyclerView.Adapter {
             holder.tvFooter.setText(getFooter());
             return;
         }
-        NewGoodsBean newGoods = mList.get(position);
+        final NewGoodsBean newGoods = mList.get(position);
         GoodsViewHolder holder = (GoodsViewHolder) parentHolder;
         holder.tvGoodsName.setText(newGoods.getGoodsName());
         holder.tvGoodsPrice.setText(newGoods.getCurrencyPrice());
         ImageLoader.downloadImg(mContext, holder.ivGoodsThume, newGoods.getGoodsThumb());
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MFGT.gotoGoodsDetail(mContext,newGoods.getGoodsId());
+            }
+        });
     }
 
     @Override

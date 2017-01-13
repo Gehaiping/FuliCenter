@@ -5,12 +5,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.model.bean.CategoryChildBean;
 import cn.ucai.fulicenter.model.bean.CategoryGroupBean;
+import cn.ucai.fulicenter.model.util.ImageLoader;
 
 /**
  * Created by Administrator on 2017/1/13.
@@ -74,18 +80,71 @@ public class CategoryAdapter extends BaseExpandableListAdapter {
 
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded, View view, ViewGroup viewGroup) {
-        View inflate = LayoutInflater.from(mContext).inflate(R.layout.item_category_group, null);
-        return inflate;
+        GroupViewHolder holder = null;
+        if (view == null) {
+            view = View.inflate(mContext, R.layout.item_category_group, null);
+            holder = new GroupViewHolder(view);
+            view.setTag(holder);
+        } else {
+            holder = (GroupViewHolder) view.getTag();
+        }
+        ImageLoader.downloadImg(mContext, holder.mIvGroupThumb, mGroupBeanList.get(groupPosition).getImageUrl());
+        holder.mTvGroupName.setText(mGroupBeanList.get(groupPosition).getName());
+        holder.mIvIndicator.setImageResource(isExpanded ? R.mipmap.expand_off : R.mipmap.expand_on);
+        return view;
     }
 
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isExpanded, View view, ViewGroup viewGroup) {
-        View inflate = LayoutInflater.from(mContext).inflate(R.layout.item_category_child, null);
-        return inflate;
+        ChildViewHolder holder = null;
+        if (view == null) {
+            view = View.inflate(mContext, R.layout.item_category_child, null);
+            holder = new ChildViewHolder(view);
+            view.setTag(holder);
+        } else {
+            holder = (ChildViewHolder) view.getTag();
+        }
+        ImageLoader.downloadImg(mContext, holder.mIvCategoryChildThumb, getChild(groupPosition, childPosition).getImageUrl());
+        holder.mTvCategoryChildName.setText(getChild(groupPosition, childPosition).getName());
+        return view;
     }
 
     @Override
     public boolean isChildSelectable(int groupPosition, int childPosition) {
         return false;
+    }
+
+    public void initData(ArrayList<CategoryGroupBean> groupBeen, ArrayList<ArrayList<CategoryChildBean>> childBean) {
+        mGroupBeanList.clear();
+        mGroupBeanList.addAll(groupBeen);
+        mChildBeanList.clear();
+        mChildBeanList.addAll(childBean);
+        notifyDataSetChanged();
+    }
+
+    static class GroupViewHolder {
+        @BindView(R.id.iv_group_thumb)
+        ImageView mIvGroupThumb;
+        @BindView(R.id.tv_group_name)
+        TextView mTvGroupName;
+        @BindView(R.id.iv_indicator)
+        ImageView mIvIndicator;
+
+        GroupViewHolder(View view) {
+            ButterKnife.bind(this, view);
+        }
+    }
+
+    static class ChildViewHolder {
+        @BindView(R.id.iv_category_child_thumb)
+        ImageView mIvCategoryChildThumb;
+        @BindView(R.id.tv_category_child_name)
+        TextView mTvCategoryChildName;
+        @BindView(R.id.layout_category_child)
+        RelativeLayout mLayoutCategoryChild;
+
+        ChildViewHolder(View view) {
+            ButterKnife.bind(this, view);
+        }
     }
 }

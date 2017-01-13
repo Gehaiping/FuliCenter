@@ -11,6 +11,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.controller.fragment.BoutiqueFragment;
+import cn.ucai.fulicenter.controller.fragment.CategoryFragment;
 import cn.ucai.fulicenter.controller.fragment.NewGoodsFragment;
 
 public class MainActivity extends AppCompatActivity {
@@ -30,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
     Fragment[] mFragments = new Fragment[5];
     NewGoodsFragment mNewGoodsFragment;
     BoutiqueFragment mBoutiqueFragment;
+    CategoryFragment mCategoryFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,14 +47,18 @@ public class MainActivity extends AppCompatActivity {
 
         mNewGoodsFragment = new NewGoodsFragment();
         mBoutiqueFragment = new BoutiqueFragment();
+        mCategoryFragment = new CategoryFragment();
         mFragments[0] = mNewGoodsFragment;
         mFragments[1] = mBoutiqueFragment;
+        mFragments[2] = mCategoryFragment;
 
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.add(R.id.fragment_parent, mNewGoodsFragment)
-                .add(R.id.fragment_parent, mBoutiqueFragment)
+        getSupportFragmentManager().beginTransaction()
+                .add(R.id.fragment_container, mNewGoodsFragment)
+                .add(R.id.fragment_container, mBoutiqueFragment)
+                .add(R.id.fragment_container, mCategoryFragment)
                 .show(mNewGoodsFragment)
                 .hide(mBoutiqueFragment)
+                .hide(mCategoryFragment)
                 .commit();
 
     }
@@ -82,8 +88,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setFragment() {
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.show(mFragments[index])
+        getSupportFragmentManager().beginTransaction()
+                .show(mFragments[index])
                 .hide(mFragments[currentIndex])
                 .commit();
     }

@@ -13,7 +13,7 @@ import cn.ucai.fulicenter.model.bean.CategoryGroupBean;
  */
 
 public interface IModelCategory {
-    void downData(Context context, OnCompletListener<CategoryGroupBean[]> listener);
+    void downGroupData(Context context, OnCompletListener<CategoryGroupBean[]> listener);
 
-    void downData(Context context, int parentId, OnCompletListener<CategoryChildBean[]> listener);
+    void downChildData(Context context, int parentId, OnCompletListener<CategoryChildBean[]> listener);
 }

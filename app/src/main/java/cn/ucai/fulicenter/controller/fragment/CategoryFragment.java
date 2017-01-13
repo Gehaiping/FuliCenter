@@ -107,7 +107,6 @@ public class CategoryFragment extends Fragment {
     private void initView(boolean hasData) {
         mTvNoMore.setVisibility(hasData ? View.GONE : View.VISIBLE);
         mElvCategory.setVisibility(hasData ? View.VISIBLE : View.GONE);
-
     }
 
 }

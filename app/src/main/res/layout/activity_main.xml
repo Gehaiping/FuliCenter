@@ -32,6 +32,7 @@
             android:text="精选"
             android:textColor="@color/main_botton_text_color" />
 
+
         <RadioButton
             android:id="@+id/layout_category"
             style="@style/menu_item_style"
@@ -49,6 +50,7 @@
             android:drawableTop="@drawable/selector_menu_item_cart"
             android:text="购物车"
             android:textColor="@color/main_botton_text_color" />
+
 
         <RadioButton
             android:id="@+id/layout_personal_center"

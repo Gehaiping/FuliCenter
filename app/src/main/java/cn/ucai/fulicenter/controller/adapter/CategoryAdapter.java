@@ -88,7 +88,7 @@ public class CategoryAdapter extends BaseExpandableListAdapter {
         } else {
             holder = (GroupViewHolder) view.getTag();
         }
-        ImageLoader.downloadImg(mContext, holder.mIvGroupThumb, mGroupBeanList.get(groupPosition).getImageUrl());
+        ImageLoader.downloadImg(mContext, holder.mIvGroupThumb, getGroup(groupPosition).getImageUrl());
         holder.mTvGroupName.setText(mGroupBeanList.get(groupPosition).getName());
         holder.mIvIndicator.setImageResource(isExpanded ? R.mipmap.expand_off : R.mipmap.expand_on);
         return view;

@@ -1,5 +1,6 @@
 package cn.ucai.fulicenter.view;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
@@ -33,6 +34,7 @@ public class CatFilterButton extends Button {
     Context mContext;
     CatFilterAdapter mAdapter;
     GridView mGridView;
+    String groupName;
 
     public CatFilterButton(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -40,6 +42,7 @@ public class CatFilterButton extends Button {
     }
 
     public void initCatFileterButton(String groupName, ArrayList<CategoryChildBean> list) {
+        this.groupName = groupName;
         this.setText(groupName);
         setCatFilterButtonListener();
         mAdapter = new CatFilterAdapter(mContext, list);
@@ -93,7 +96,7 @@ public class CatFilterButton extends Button {
         isExpand = !isExpand;
     }
 
-    class CatFilterAdapter extends BaseAdapter {
+    class CatFilterAdapter extends BaseAdapter {//PopupWindow的Adapter
         Context context;
         ArrayList<CategoryChildBean> list;
 
@@ -138,15 +141,25 @@ public class CatFilterButton extends Button {
             @BindView(R.id.tvCategoryChildName)
             TextView mTvCategoryChildName;
             @BindView(R.id.layout_category_child)
-            RelativeLayout layoutCategoryChild;
+            RelativeLayout mLayoutCategoryChild;
 
             CatFilterViewHolder(View view) {
                 ButterKnife.bind(this, view);
             }
 
-            public void bind(int position) {
+            public void bind(final int position) {
                 ImageLoader.downloadImg(context, mIvCategoryChildThumb, list.get(position).getImageUrl());
                 mTvCategoryChildName.setText(list.get(position).getName());
+                mLayoutCategoryChild.setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        MFGT.gotoCategoryChild(mContext,
+                                list.get(position).getId(),
+                                groupName,
+                                list);
+                        MFGT.finish((Activity) mContext);
+                    }
+                });
             }
         }
     }

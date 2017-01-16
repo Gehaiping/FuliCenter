@@ -6,7 +6,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
 import butterknife.BindView;
@@ -17,6 +16,7 @@ import cn.ucai.fulicenter.application.I;
 import cn.ucai.fulicenter.controller.fragment.NewGoodsFragment;
 import cn.ucai.fulicenter.model.bean.CategoryChildBean;
 import cn.ucai.fulicenter.view.CatFilterButton;
+import cn.ucai.fulicenter.view.MFGT;
 
 public class CategoryChildActivity extends AppCompatActivity {
     NewGoodsFragment mNewGoodsFragment;
@@ -75,5 +75,10 @@ public class CategoryChildActivity extends AppCompatActivity {
                 break;
         }
         mNewGoodsFragment.sortGoods(sortBy);
+    }
+
+    @OnClick(R.id.backClickArea)
+    public void onClick() {//分类二级页面的后退键
+        MFGT.finish(this);
     }
 }

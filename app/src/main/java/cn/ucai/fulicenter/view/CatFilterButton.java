@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -20,6 +21,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.model.bean.CategoryChildBean;
+import cn.ucai.fulicenter.model.util.ImageLoader;
 
 /**
  * Created by Administrator on 2017/1/16.
@@ -29,6 +31,8 @@ public class CatFilterButton extends Button {
     boolean isExpand;
     PopupWindow mPopupWindow;
     Context mContext;
+    CatFilterAdapter mAdapter;
+    GridView mGridView;
 
     public CatFilterButton(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -38,6 +42,18 @@ public class CatFilterButton extends Button {
     public void initCatFileterButton(String groupName, ArrayList<CategoryChildBean> list) {
         this.setText(groupName);
         setCatFilterButtonListener();
+        mAdapter = new CatFilterAdapter(mContext, list);
+
+        initGridView();
+    }
+
+    private void initGridView() {//设置PopupWindow的布局
+        mGridView = new GridView(mContext);
+        mGridView.setVerticalSpacing(10);
+        mGridView.setHorizontalSpacing(10);
+        mGridView.setNumColumns(GridView.AUTO_FIT);
+        mGridView.setAdapter(mAdapter);
+
     }
 
     private void setCatFilterButtonListener() {
@@ -61,9 +77,7 @@ public class CatFilterButton extends Button {
         mPopupWindow.setWidth(LinearLayout.LayoutParams.MATCH_PARENT);
         mPopupWindow.setHeight(LinearLayout.LayoutParams.WRAP_CONTENT);
         mPopupWindow.setBackgroundDrawable(new ColorDrawable(0xbb000000));
-        TextView textView = new TextView(mContext);
-        textView.setText("HELLO...");
-        mPopupWindow.setContentView(textView);
+        mPopupWindow.setContentView(mGridView);
         mPopupWindow.showAsDropDown(this);
     }
 
@@ -113,19 +127,26 @@ public class CatFilterButton extends Button {
             } else {
                 viewHolder = (CatFilterViewHolder) view.getTag();
             }
+
+            viewHolder.bind(i);//绑定数据
             return view;
         }
 
         class CatFilterViewHolder {
             @BindView(R.id.ivCategoryChildThumb)
-            ImageView ivCategoryChildThumb;
+            ImageView mIvCategoryChildThumb;
             @BindView(R.id.tvCategoryChildName)
-            TextView tvCategoryChildName;
+            TextView mTvCategoryChildName;
             @BindView(R.id.layout_category_child)
             RelativeLayout layoutCategoryChild;
 
             CatFilterViewHolder(View view) {
                 ButterKnife.bind(this, view);
+            }
+
+            public void bind(int position) {
+                ImageLoader.downloadImg(context, mIvCategoryChildThumb, list.get(position).getImageUrl());
+                mTvCategoryChildName.setText(list.get(position).getName());
             }
         }
     }

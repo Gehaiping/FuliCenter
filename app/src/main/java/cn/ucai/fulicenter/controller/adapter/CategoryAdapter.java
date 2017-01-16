@@ -113,7 +113,8 @@ public class CategoryAdapter extends BaseExpandableListAdapter {
             public void onClick(View view) {
                 MFGT.gotoCategoryChild(mContext,
                         getChild(groupPosition, childPosition).getId(),
-                        mGroupBeanList.get(groupPosition).getName());
+                        mGroupBeanList.get(groupPosition).getName(),
+                        mChildBeanList.get(groupPosition));
             }
         });
         return view;

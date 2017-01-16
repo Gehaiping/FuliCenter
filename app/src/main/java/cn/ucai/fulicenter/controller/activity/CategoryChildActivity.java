@@ -12,6 +12,8 @@ import cn.ucai.fulicenter.controller.fragment.NewGoodsFragment;
 
 public class CategoryChildActivity extends AppCompatActivity {
     NewGoodsFragment mNewGoodsFragment;
+    boolean priceAsc = false;
+    boolean addTimeAsc = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,19 +23,31 @@ public class CategoryChildActivity extends AppCompatActivity {
 
         mNewGoodsFragment = new NewGoodsFragment();
         getSupportFragmentManager().beginTransaction()
-                .add(R.id.fragment_container,mNewGoodsFragment)
+                .add(R.id.fragment_container, mNewGoodsFragment)
                 .commit();
     }
 
     @OnClick({R.id.btn_sort_price, R.id.btn_sort_addtime})
     public void onClick(View view) {
+        int sortBy = I.SORT_BY_ADDTIME_ASC;
         switch (view.getId()) {
             case R.id.btn_sort_price:
-                mNewGoodsFragment.sortGoods(I.SORT_BY_PRICE_ASC);
+                if (priceAsc) {
+                    sortBy = I.SORT_BY_PRICE_ASC;
+                } else {
+                    sortBy = I.SORT_BY_PRICE_DESC;
+                }
+                priceAsc = !priceAsc;
                 break;
             case R.id.btn_sort_addtime:
-                mNewGoodsFragment.sortGoods(I.SORT_BY_ADDTIME_ASC);
+                if (addTimeAsc) {
+                    sortBy = I.SORT_BY_ADDTIME_ASC;
+                } else {
+                    sortBy = I.SORT_BY_ADDTIME_DESC;
+                }
+                addTimeAsc = !addTimeAsc;
                 break;
         }
+        mNewGoodsFragment.sortGoods(sortBy);
     }
 }

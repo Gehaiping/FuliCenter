@@ -11,18 +11,23 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.ucai.fulicenter.R;
+import cn.ucai.fulicenter.application.FuLiCenterApplication;
 import cn.ucai.fulicenter.application.I;
 import cn.ucai.fulicenter.model.bean.Result;
 import cn.ucai.fulicenter.model.bean.User;
+import cn.ucai.fulicenter.model.dao.DBManager;
+import cn.ucai.fulicenter.model.dao.UserDao;
 import cn.ucai.fulicenter.model.net.IModelUser;
 import cn.ucai.fulicenter.model.net.ModelUser;
 import cn.ucai.fulicenter.model.net.OnCompletListener;
 import cn.ucai.fulicenter.model.net.SharePrefrenceUtils;
 import cn.ucai.fulicenter.model.util.CommonUtils;
+import cn.ucai.fulicenter.model.util.L;
 import cn.ucai.fulicenter.model.util.ResultUtils;
 import cn.ucai.fulicenter.view.MFGT;
 
 public class LoginActivity extends AppCompatActivity {
+    private static final String TAG = DBManager.class.getSimpleName();
 
     @BindView(R.id.etUserName)
     EditText etUserName;
@@ -78,11 +83,14 @@ public class LoginActivity extends AppCompatActivity {
             public void onSuccess(String s) {
                 if (s != null) {
                     Result result = ResultUtils.getResultFromJson(s, User.class);
+                    L.e(TAG, "result=" + result);
                     if (result != null) {
                         if (result.isRetMsg()) {
                             User user = (User) result.getRetData();
+                            boolean saveUser = UserDao.getInstance().saveUser(user);//保存到数据库
                             CommonUtils.showShortToast("登录成功");
                             SharePrefrenceUtils.getInstance(LoginActivity.this).saveUser(user.getMuserName());
+                            FuLiCenterApplication.setUser(user);
                             MFGT.finish(LoginActivity.this);
                         } else {
                             if (result.getRetCode() == I.MSG_LOGIN_UNKNOW_USER) {

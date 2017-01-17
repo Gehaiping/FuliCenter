@@ -93,8 +93,9 @@ public class LoginActivity extends AppCompatActivity {
                                 CommonUtils.showShortToast("登录成功");
                                 SharePrefrenceUtils.getInstance(LoginActivity.this).saveUser(user.getMuserName());
                                 FuLiCenterApplication.setUser(user);
+                                setResult(RESULT_OK);
+                                MFGT.finish(LoginActivity.this);
                             }
-                            MFGT.finish(LoginActivity.this);
                         } else {
                             if (result.getRetCode() == I.MSG_LOGIN_UNKNOW_USER) {
                                 CommonUtils.showShortToast(getString(R.string.login_fail_unknow_user));

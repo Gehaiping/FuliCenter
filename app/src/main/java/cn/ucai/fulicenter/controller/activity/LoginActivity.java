@@ -88,9 +88,12 @@ public class LoginActivity extends AppCompatActivity {
                         if (result.isRetMsg()) {
                             User user = (User) result.getRetData();
                             boolean saveUser = UserDao.getInstance().saveUser(user);//保存到数据库
-                            CommonUtils.showShortToast("登录成功");
-                            SharePrefrenceUtils.getInstance(LoginActivity.this).saveUser(user.getMuserName());
-                            FuLiCenterApplication.setUser(user);
+                            L.e(TAG, "saveUser=" + saveUser);
+                            if (saveUser) {
+                                CommonUtils.showShortToast("登录成功");
+                                SharePrefrenceUtils.getInstance(LoginActivity.this).saveUser(user.getMuserName());
+                                FuLiCenterApplication.setUser(user);
+                            }
                             MFGT.finish(LoginActivity.this);
                         } else {
                             if (result.getRetCode() == I.MSG_LOGIN_UNKNOW_USER) {

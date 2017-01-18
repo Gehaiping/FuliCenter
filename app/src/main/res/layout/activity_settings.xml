@@ -135,7 +135,7 @@
                 android:layout_alignParentLeft="true"
                 android:layout_margin="5dp"
                 android:paddingLeft="11dp"
-                android:text="密码"
+                android:text="昵称"
                 android:textColor="@color/black"
                 android:textSize="16sp" />
 

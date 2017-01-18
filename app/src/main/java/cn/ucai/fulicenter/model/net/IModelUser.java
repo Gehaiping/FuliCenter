@@ -3,7 +3,8 @@ package cn.ucai.fulicenter.model.net;
 
 import android.content.Context;
 
-import cn.ucai.fulicenter.model.bean.BoutiqueBean;
+import java.io.File;
+
 
 
 /**
@@ -16,4 +17,6 @@ public interface IModelUser {
     void register(Context context, String userName, String userNick, String password, OnCompletListener<String> listener);
 
     void updatNick(Context context, String userName, String userNick, OnCompletListener<String> listener);
+
+    void uploadAvatar(Context context, String userName, File file, OnCompletListener<String> listener);
 }

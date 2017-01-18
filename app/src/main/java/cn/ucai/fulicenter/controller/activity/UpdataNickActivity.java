@@ -74,7 +74,7 @@ public class UpdataNickActivity extends AppCompatActivity {
                     Result result = ResultUtils.getResultFromJson(s, User.class);
                     if (result != null) {
                         if (result.isRetMsg()) {
-                            msg = R.string.update_user_avatar_success;
+                            msg = R.string.update_user_nick_success;
                             User user = (User) result.getRetData();
                             L.e("update success,user=" + user);
                             saveNewUser(user);

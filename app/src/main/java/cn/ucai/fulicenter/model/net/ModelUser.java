@@ -2,6 +2,8 @@ package cn.ucai.fulicenter.model.net;
 
 import android.content.Context;
 
+import java.io.File;
+
 import cn.ucai.fulicenter.application.I;
 import cn.ucai.fulicenter.model.bean.User;
 import cn.ucai.fulicenter.model.util.MD5;
@@ -40,6 +42,18 @@ public class ModelUser implements IModelUser {
         utils.setRequestUrl(I.REQUEST_UPDATE_USER_NICK)
                 .addParam(I.User.USER_NAME, userName)
                 .addParam(I.User.NICK, userNick)
+                .targetClass(String.class)
+                .execute(listener);
+    }
+
+    @Override
+    public void uploadAvatar(Context context, String userName, File file, OnCompletListener<String> listener) {
+        OkHttpUtils<String> utils = new OkHttpUtils<>(context);
+        utils.setRequestUrl(I.REQUEST_UPDATE_AVATAR)
+                .addParam(I.NAME_OR_HXID, userName)
+                .addParam(I.AVATAR_TYPE, I.AVATAR_TYPE_USER_PATH)
+                .addFile2(file)
+                .post()
                 .targetClass(String.class)
                 .execute(listener);
     }

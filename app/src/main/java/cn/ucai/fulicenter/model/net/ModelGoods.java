@@ -31,4 +31,18 @@ public class ModelGoods implements IModelGoods {
                 .targetClass(MessageBean.class)
                 .execute(listener);
     }
+
+    @Override
+    public void setCollect(Context context, int goodId, String userName, int action, OnCompletListener<MessageBean> listener) {
+        OkHttpUtils<MessageBean> utils = new OkHttpUtils<>(context);
+        String url = I.REQUEST_ADD_COLLECT;
+        if (action == I.ACTION_DELETE_COLLECT) {
+            url = I.REQUEST_DELETE_COLLECT;
+        }
+        utils.setRequestUrl(url)
+                .addParam(I.Goods.KEY_GOODS_ID, String.valueOf(goodId))
+                .addParam(I.Collect.USER_NAME,userName)
+                .targetClass(MessageBean.class)
+                .execute(listener);
+    }
 }

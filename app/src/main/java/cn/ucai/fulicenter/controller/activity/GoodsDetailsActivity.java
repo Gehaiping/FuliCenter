@@ -4,15 +4,19 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.webkit.WebView;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.ucai.fulicenter.R;
+import cn.ucai.fulicenter.application.FuLiCenterApplication;
 import cn.ucai.fulicenter.application.I;
 import cn.ucai.fulicenter.model.bean.AlbumsBean;
 import cn.ucai.fulicenter.model.bean.GoodsDetailsBean;
+import cn.ucai.fulicenter.model.bean.MessageBean;
+import cn.ucai.fulicenter.model.bean.User;
 import cn.ucai.fulicenter.model.net.IModelGoods;
 import cn.ucai.fulicenter.model.net.ModelGoods;
 import cn.ucai.fulicenter.model.net.OnCompletListener;
@@ -39,6 +43,10 @@ public class GoodsDetailsActivity extends AppCompatActivity {
     SlideAutoLoopView mSalv;
     @BindView(R.id.indicator)
     FlowIndicator mIndicator;
+
+    boolean isCollect;
+    @BindView(R.id.iv_good_collect)
+    ImageView mIvGoodCollect;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,5 +114,53 @@ public class GoodsDetailsActivity extends AppCompatActivity {
     @OnClick(R.id.backClickArea)
     public void onClick() {
         MFGT.finish(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        initCollectStatus();
+        setCollectStatus();
+    }
+
+    @OnClick(R.id.iv_good_collect)
+    public void setCollectListener() {
+        User user = FuLiCenterApplication.getUser();
+        if (user != null) {
+
+        } else {
+            MFGT.gotoLogin(this);
+        }
+    }
+
+    private void setCollectStatus() {
+        if (isCollect) {
+            mIvGoodCollect.setImageResource(R.mipmap.bg_collect_out);
+        } else {
+            mIvGoodCollect.setImageResource(R.mipmap.bg_collect_in);
+        }
+    }
+
+    private void initCollectStatus() {
+        User user = FuLiCenterApplication.getUser();
+        if (user != null) {
+            model.isCollect(this, goodsId, user.getMuserName(), new OnCompletListener<MessageBean>() {
+                @Override
+                public void onSuccess(MessageBean result) {
+                    if (result != null && result.isSuccess()) {
+                        isCollect = true;
+                    } else {
+                        isCollect = false;
+                    }
+                    setCollectStatus();
+                }
+
+                @Override
+                public void onError(String error) {
+                    isCollect = false;
+                    setCollectStatus();
+                }
+            });
+        }
     }
 }

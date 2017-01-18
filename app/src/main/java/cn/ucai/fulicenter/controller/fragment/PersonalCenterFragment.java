@@ -44,6 +44,12 @@ public class PersonalCenterFragment extends Fragment {
         }
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        initData();
+    }
+
     private void loadUserInfo(User user) {
         ImageLoader.setAvatar(ImageLoader.getAvatarUrl(user), getContext(), mIvUserAvatar);
         mTvUserName.setText(user.getMuserNick());

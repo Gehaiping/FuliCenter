@@ -18,7 +18,9 @@ import cn.ucai.fulicenter.model.bean.AlbumsBean;
 import cn.ucai.fulicenter.model.bean.GoodsDetailsBean;
 import cn.ucai.fulicenter.model.bean.MessageBean;
 import cn.ucai.fulicenter.model.bean.User;
+import cn.ucai.fulicenter.model.net.IModelCart;
 import cn.ucai.fulicenter.model.net.IModelGoods;
+import cn.ucai.fulicenter.model.net.ModeCart;
 import cn.ucai.fulicenter.model.net.ModelGoods;
 import cn.ucai.fulicenter.model.net.OnCompletListener;
 import cn.ucai.fulicenter.model.util.CommonUtils;
@@ -31,6 +33,8 @@ public class GoodsDetailsActivity extends AppCompatActivity {
 
     int goodsId = 0;
     IModelGoods model;
+    IModelCart cartModel;
+
     @BindView(R.id.tv_good_name_english)
     TextView mTvGoodNameEnglish;
     @BindView(R.id.tv_good_name)
@@ -191,5 +195,23 @@ public class GoodsDetailsActivity extends AppCompatActivity {
                 }
             });
         }
+    }
+
+    @OnClick(R.id.iv_good_cart)
+    public void addCart() {
+        User user = FuLiCenterApplication.getUser();
+        cartModel = new ModeCart();
+        cartModel.updateCart(this, I.ACTION_CART_ADD, user.getMuserName(), goodsId, 1, 0,
+                new OnCompletListener<MessageBean>() {
+                    @Override
+                    public void onSuccess(MessageBean result) {
+                        CommonUtils.showShortToast(R.string.add_goods_success);
+                    }
+
+                    @Override
+                    public void onError(String error) {
+
+                    }
+                });
     }
 }

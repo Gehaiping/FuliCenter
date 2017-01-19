@@ -80,6 +80,9 @@ public interface I {
     String BROADCAST_UPDATA_CART = "cn.ucai.fulicenter.update.cart";
     int CART_CHECKED_DEFAULT = 0;
     String BROADCAST_UPDATA_COLLECT = "cn.ucai.fulicenter.update.collect";
+    int ACTION_CART_ADD = 1;
+    int ACTION_CART_DELETE = 2;
+    int ACTION_CART_UPDATA = 3;
 
     interface Goods {
         String KEY_RESULT = "result";

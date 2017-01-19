@@ -38,8 +38,6 @@ public class CollectsActivity extends AppCompatActivity {
     RecyclerView rv;
     @BindView(R.id.srl)
     SwipeRefreshLayout mSrl;
-    @BindView(R.id.tv_noMore)
-    TextView mTvNoMore;
 
     CollectsAdapter mAdapter;
     ArrayList<CollectBean> mList;
@@ -111,11 +109,11 @@ public class CollectsActivity extends AppCompatActivity {
                     }
                     if (list.size() < I.PAGE_SIZE_DEFAULT) {
                         mAdapter.setMore(false);
-                        mAdapter.setFooter("没有更多数据了");
                     }
                 } else {
                     mAdapter.setMore(false);
                 }
+
             }
 
             @Override

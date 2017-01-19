@@ -34,7 +34,6 @@ import cn.ucai.fulicenter.view.MFGT;
 public class CollectsAdapter extends RecyclerView.Adapter {
     Context mContext;
     ArrayList<CollectBean> mList;
-    String footer;
     boolean isMore;
 
     IModelGoods model;
@@ -49,13 +48,8 @@ public class CollectsAdapter extends RecyclerView.Adapter {
         notifyDataSetChanged();
     }
 
-    public String getFooter() {
-        return footer;
-    }
-
-    public void setFooter(String footer) {
-        this.footer = footer;
-        notifyDataSetChanged();
+    public int getFooterString() {
+        return isMore ? R.string.load_more : R.string.no_more;
     }
 
     public void initData(ArrayList<CollectBean> list) {
@@ -96,7 +90,7 @@ public class CollectsAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(RecyclerView.ViewHolder parentHolder, int position) {
         if (getItemViewType(position) == I.TYPE_FOOTER) {
             FooterViewHolder holder = (FooterViewHolder) parentHolder;
-            holder.tvFooter.setText(getFooter());
+            holder.tvFooter.setText(getFooterString());
             return;
         }
         CollectViewHolder holder = (CollectViewHolder) parentHolder;

@@ -5,6 +5,7 @@ import android.content.Context;
 
 import java.io.File;
 
+import cn.ucai.fulicenter.model.bean.CollectBean;
 import cn.ucai.fulicenter.model.bean.MessageBean;
 
 
@@ -22,4 +23,6 @@ public interface IModelUser {
     void uploadAvatar(Context context, String userName, File file, OnCompletListener<String> listener);
 
     void collectCount(Context context, String userName, OnCompletListener<MessageBean> listener);
+
+    void getCollects(Context context, String userName, int pageId, int pageSize, OnCompletListener<CollectBean[]> listener);
 }

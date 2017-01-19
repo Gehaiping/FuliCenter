@@ -71,6 +71,11 @@ public class CollectsAdapter extends RecyclerView.Adapter {
         user = FuLiCenterApplication.getUser();
     }
 
+    public void removeItem(int goodsID) {
+        mList.remove(new CollectBean(goodsID));
+        notifyDataSetChanged();
+    }
+
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(mContext);

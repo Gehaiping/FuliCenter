@@ -3,6 +3,7 @@ package cn.ucai.fulicenter.controller.activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -26,10 +27,13 @@ import cn.ucai.fulicenter.model.net.ModelUser;
 import cn.ucai.fulicenter.model.net.OnCompletListener;
 import cn.ucai.fulicenter.model.util.CommonUtils;
 import cn.ucai.fulicenter.model.util.ConvertUtils;
+import cn.ucai.fulicenter.model.util.L;
 import cn.ucai.fulicenter.view.DisplayUtils;
 import cn.ucai.fulicenter.view.SpaceItemDecoration;
 
 public class CollectsActivity extends AppCompatActivity {
+    private static final String TAG = CollectsActivity.class.getSimpleName();
+
     IModelUser model;
     CollectsActivity mContext;
     @BindView(R.id.tv_refresh)
@@ -44,6 +48,7 @@ public class CollectsActivity extends AppCompatActivity {
     int pageId = 1;
     GridLayoutManager gm;
     User user = null;
+    UpdataCollectReceiver mReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +62,13 @@ public class CollectsActivity extends AppCompatActivity {
         initView();
         initData();
         setListener();
+        mReceiver = new UpdataCollectReceiver();
+        setReceiverListener();
+    }
+
+    private void setReceiverListener() {//注册广播
+        IntentFilter filter = new IntentFilter(I.BROADCAST_UPDATA_COLLECT);
+        registerReceiver(mReceiver, filter);
     }
 
     private void setListener() {
@@ -148,4 +160,20 @@ public class CollectsActivity extends AppCompatActivity {
         rv.addItemDecoration(new SpaceItemDecoration(12));
     }
 
+    class UpdataCollectReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            int goodsId = intent.getIntExtra(I.Collect.GOODS_ID, 0);
+            L.e(TAG, "onReceive,goodsId=" + goodsId);
+            mAdapter.removeItem(goodsId);
+        }
+    }
+
+    @Override
+    protected void onDestroy() {//取消注册
+        super.onDestroy();
+        if (mReceiver != null) {
+            unregisterReceiver(mReceiver);
+        }
+    }
 }

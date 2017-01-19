@@ -108,10 +108,10 @@ public class CollectsActivity extends AppCompatActivity {
                         mAdapter.initData(list);
                     } else {
                         mAdapter.addData(list);
-                        mAdapter.setFooter("没有更多数据了");
                     }
                     if (list.size() < I.PAGE_SIZE_DEFAULT) {
                         mAdapter.setMore(false);
+                        mAdapter.setFooter("没有更多数据了");
                     }
                 } else {
                     mAdapter.setMore(false);
@@ -150,25 +150,4 @@ public class CollectsActivity extends AppCompatActivity {
         rv.addItemDecoration(new SpaceItemDecoration(12));
     }
 
-    updateCollectReceiver mReceiver;
-
-    class updateCollectReceiver extends BroadcastReceiver {
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            int goodsId = intent.getIntExtra(I.Collect.GOODS_ID, 0);
-            if (goodsId != 0) {
-                CollectBean bean = new CollectBean();
-                bean.setGoodsId(goodsId);
-            }
-        }
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if (mReceiver != null) {
-            unregisterReceiver(mReceiver);
-        }
-    }
 }

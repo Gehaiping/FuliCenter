@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -18,13 +17,14 @@ import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.application.I;
 import cn.ucai.fulicenter.model.bean.CollectBean;
 import cn.ucai.fulicenter.model.util.ImageLoader;
+import cn.ucai.fulicenter.view.FooterViewHolder;
 import cn.ucai.fulicenter.view.MFGT;
 
 /**
  * Created by Administrator on 2017/1/19.
  */
 
-public class CollectAdapter extends RecyclerView.Adapter {
+public class CollectsAdapter extends RecyclerView.Adapter {
     Context mContext;
     ArrayList<CollectBean> mList;
     String footer;
@@ -60,7 +60,7 @@ public class CollectAdapter extends RecyclerView.Adapter {
         notifyDataSetChanged();
     }
 
-    public CollectAdapter(Context context, ArrayList<CollectBean> list) {
+    public CollectsAdapter(Context context, ArrayList<CollectBean> list) {
         this.mContext = context;
         this.mList = list;
 //        mList = new ArrayList<>();
@@ -92,7 +92,7 @@ public class CollectAdapter extends RecyclerView.Adapter {
         final CollectBean newGoods = mList.get(position);
         CollectViewHolder holder = (CollectViewHolder) parentHolder;
         holder.tvGoodsName.setText(newGoods.getGoodsName());
-        ImageLoader.downloadImg(mContext, holder.ivGoodsThume, newGoods.getGoodsThumb());
+        ImageLoader.downloadImg(mContext, holder.ivGoodsThumb, newGoods.getGoodsThumb());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -114,28 +114,17 @@ public class CollectAdapter extends RecyclerView.Adapter {
         return I.TYPE_ITEM;
     }
 
-
     static class CollectViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.ivGoodsThume)
-        ImageView ivGoodsThume;
-        @BindView(R.id.GoodsName)
+        @BindView(R.id.ivGoodsThumb)
+        ImageView ivGoodsThumb;
+        @BindView(R.id.tvGoodsName)
         TextView tvGoodsName;
-        @BindView(R.id.tvGoodsPrice)
-        TextView tvGoodsPrice;
+        @BindView(R.id.iv_collect_del)
+        ImageView ivCollectDel;
         @BindView(R.id.layout_goods)
-        LinearLayout layoutGoods;
+        RelativeLayout layoutGoods;
 
         CollectViewHolder(View view) {
-            super(view);
-            ButterKnife.bind(this, view);
-        }
-    }
-
-    static class FooterViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.tvFooter)
-        TextView tvFooter;
-
-        FooterViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);
         }

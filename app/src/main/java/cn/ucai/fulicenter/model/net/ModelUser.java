@@ -70,12 +70,12 @@ public class ModelUser implements IModelUser {
     }
 
     @Override
-    public void getCollects(Context context, String userName, int pageId, int pageSize, OnCompletListener<CollectBean[]> listener) {
+    public void getCollects(Context context, String userName, int pageId,OnCompletListener<CollectBean[]> listener) {
         OkHttpUtils<CollectBean[]> utils = new OkHttpUtils<>(context);
         utils.setRequestUrl(I.REQUEST_FIND_COLLECTS)
                 .addParam(I.Collect.USER_NAME, userName)
                 .addParam(I.PAGE_ID, String.valueOf(pageId))
-                .addParam(I.PAGE_SIZE, String.valueOf(pageSize))
+                .addParam(I.PAGE_SIZE, String.valueOf(I.PAGE_SIZE_DEFAULT))
                 .targetClass(CollectBean[].class)
                 .execute(listener);
     }

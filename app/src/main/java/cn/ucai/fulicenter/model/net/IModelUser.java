@@ -24,5 +24,5 @@ public interface IModelUser {
 
     void collectCount(Context context, String userName, OnCompletListener<MessageBean> listener);
 
-    void getCollects(Context context, String userName, int pageId, int pageSize, OnCompletListener<CollectBean[]> listener);
+    void getCollects(Context context, String userName, int pageId,OnCompletListener<CollectBean[]> listener);
 }

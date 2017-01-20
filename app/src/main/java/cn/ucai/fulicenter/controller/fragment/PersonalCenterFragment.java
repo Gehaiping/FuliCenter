@@ -3,6 +3,7 @@ package cn.ucai.fulicenter.controller.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,6 +35,7 @@ public class PersonalCenterFragment extends Fragment {
     TextView mTvCollectCount;
 
     IModelUser model;
+    User user;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -45,7 +47,7 @@ public class PersonalCenterFragment extends Fragment {
     }
 
     private void initData() {
-        User user = FuLiCenterApplication.getUser();
+        user = FuLiCenterApplication.getUser();
         if (user != null) {
             loadUserInfo(user);
         } else {
@@ -58,7 +60,7 @@ public class PersonalCenterFragment extends Fragment {
         super.onResume();
         initData();
         getCollectCount();
-
+        L.e(TAG, "onResume");
     }
 
     private void loadUserInfo(User user) {
@@ -68,11 +70,16 @@ public class PersonalCenterFragment extends Fragment {
     }
 
     private void getCollectCount() {
+        User user = FuLiCenterApplication.getUser();
+        if (user == null) {
+            return;
+        }
         model = new ModelUser();
-        model.collectCount(getContext(), FuLiCenterApplication.getUser().getMuserName(),
+        model.collectCount(getContext(), user.getMuserName(),
                 new OnCompletListener<MessageBean>() {
                     @Override
                     public void onSuccess(MessageBean result) {
+                        Log.e(TAG, "username=" + FuLiCenterApplication.getUser().getMuserName());
                         L.e(TAG, "result=" + result);
                         if (result != null && result.isSuccess()) {
                             loadCollectCount(result.getMsg());

@@ -170,13 +170,11 @@ public class CartFragment extends Fragment {
                     sumPrice += cart.getCount() * getPrice(goods.getCurrencyPrice());
                     savePrice += cart.getCount() * (getPrice(goods.getCurrencyPrice()) - getPrice(goods.getRankPrice()));
                 }
-                mTvCartSumPrice.setText("合计：￥"+sumPrice);
-                mTvCartSavePrice.setText("节省：￥"+savePrice);
             }
-        } else {
-            mTvCartSumPrice.setText("合计：￥0.00");
-            mTvCartSavePrice.setText("节省：￥0.00");
         }
+        mTvCartSumPrice.setText("合计：￥" + sumPrice);
+        mTvCartSavePrice.setText("节省：￥" + savePrice);
+        mAdapter.notifyDataSetChanged();
     }
 
     //currencyPrice:"￥88"

@@ -120,7 +120,6 @@
             android:layout_centerVertical="true"
             android:layout_toRightOf="@id/tv_order_street"
             android:background="@null"
-            android:inputType="phone"
             android:paddingLeft="10dp"
             android:singleLine="true"
             android:textSize="18sp" />

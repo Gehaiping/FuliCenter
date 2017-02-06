@@ -28,7 +28,7 @@
             android:layout_toLeftOf="@+id/tv_cart_buy"
             android:layout_below="@+id/tv_cart_sum_price"
             android:textColor="@color/google_red"
-            android:text="节省：￥0"
+            android:text="优惠：￥0"
             android:textSize="16sp"/>
 
         <TextView

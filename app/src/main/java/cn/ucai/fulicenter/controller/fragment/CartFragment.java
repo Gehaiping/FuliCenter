@@ -19,7 +19,7 @@ import butterknife.OnClick;
 import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.application.FuLiCenterApplication;
 import cn.ucai.fulicenter.application.I;
-import cn.ucai.fulicenter.controller.adapter.BoutiqueAdapter;
+import cn.ucai.fulicenter.controller.adapter.CartAdapter;
 import cn.ucai.fulicenter.model.bean.BoutiqueBean;
 import cn.ucai.fulicenter.model.bean.CartBean;
 import cn.ucai.fulicenter.model.bean.User;
@@ -45,7 +45,7 @@ public class CartFragment extends Fragment {
     SwipeRefreshLayout mSwipeRefreshLayout;
 
     LinearLayoutManager mLayoutManager;
-    BoutiqueAdapter mAdapter;
+    CartAdapter mAdapter;
 
     IModelCart model;
     @BindView(R.id.tv_nothing)
@@ -92,9 +92,9 @@ public class CartFragment extends Fragment {
                         ArrayList<CartBean> list = ConvertUtils.array2List(result);
                         L.e(TAG, "List.size=" + list.size());
                         if (action == I.ACTION_DOWNLOAD || action == I.ACTION_PULL_DOWN) {
-//                            mAdapter.initData(list);
+                            mAdapter.initData(list);
                         } else {
-//                            mAdapter.addData(list);
+                            mAdapter.addData(list);
                         }
                     } else {
                         mSwipeRefreshLayout.setVisibility(View.GONE);
@@ -125,7 +125,7 @@ public class CartFragment extends Fragment {
         mRv.addItemDecoration(new SpaceItemDecoration(12));
         mRv.setLayoutManager(mLayoutManager);
         mRv.setHasFixedSize(true);
-        mAdapter = new BoutiqueAdapter(getContext(), null);
+        mAdapter = new CartAdapter(getContext(), new ArrayList<CartBean>());
         mRv.setAdapter(mAdapter);
 
         mSwipeRefreshLayout.setVisibility(View.GONE);

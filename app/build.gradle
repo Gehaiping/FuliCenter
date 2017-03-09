@@ -17,6 +17,26 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    lintOptions {
+        checkReleaseBuilds false
+        // Or, if you prefer, you can continue to check for errors in release builds,
+        // but continue the build even when errors are found:
+        abortOnError false
+    }
+    productFlavors {
+        xiaomi {
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "xiaomi"]
+        }
+        _360 {
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "_360"]
+        }
+        baidu {
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "baidu"]
+        }
+        wandoujia {
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "wandoujia"]
+        }
+    }
 }
 
 dependencies {
@@ -51,4 +71,5 @@ dependencies {
     compile files('src/main/libs/ShareSDK-Wechat-Core-2.8.0.jar')
     compile files('src/main/libs/ShareSDK-Wechat-Favorite-2.8.0.jar')
     compile files('src/main/libs/ShareSDK-Wechat-Moments-2.8.0.jar')
+        compile 'com.umeng.analytics:analytics:latest.integration'
 }

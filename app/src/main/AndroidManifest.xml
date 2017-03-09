@@ -267,6 +267,8 @@
 
         </activity>
         <!--sharesdk end-->
+        <meta-data android:value="58c0ba401061d20922001049" android:name="UMENG_APPKEY"/>
+        <meta-data android:value="${UMENG_CHANNEL_VALUE}" android:name="UMENG_CHANNEL"/>
     </application>
 
 </manifest>
